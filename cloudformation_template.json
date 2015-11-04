@@ -141,6 +141,21 @@
         }
       }
     },
+    "kubernetesHTTPTCP": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "VpcId": {"Fn::If": ["UseEC2Classic", {"Ref": "AWS::NoValue"}, {"Ref": "VpcId"}]},
+        "GroupDescription": "Kubernetes SecurityGroup",
+        "SecurityGroupIngress": [
+          {
+            "IpProtocol": "tcp",
+            "FromPort": "80",
+            "ToPort": "80",
+            "CidrIp": {"Ref": "AllowFrom"}
+          }
+        ]
+      }
+    },
     "KubernetesMasterInstance": {
       "Type": "AWS::EC2::Instance",
       "Properties": {
